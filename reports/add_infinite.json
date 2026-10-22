@@ -1,0 +1,219 @@
+{
+  "submission": "add_infinite.c",
+  "problem": "add_two_integers",
+  "rules_hash": "sha256:a0abe2c08f9d7470",
+  "grade": 39.0,
+  "first_pass": {
+    "compiled": true,
+    "smoke_ok": false,
+    "suspected_infinite_loop": true,
+    "static_sanity_ok": true,
+    "warnings_count": 0,
+    "notes": [
+      "Smoke run timed out after 1.0s; suspected infinite loop."
+    ]
+  },
+  "metrics": [
+    {
+      "name": "correctness",
+      "analyzer": "io_tests",
+      "score": 0.0,
+      "weight": 0.2,
+      "contribution": 0.0,
+      "verdict": "skipped (smoke run timed out)",
+      "feedback": "Skipped execution-based analyzer because smoke test timed out.",
+      "evidence": {
+        "skipped": true,
+        "reason": "suspected_infinite_loop"
+      },
+      "suggestions": []
+    },
+    {
+      "name": "syntax",
+      "analyzer": "compiler_warnings",
+      "score": 1.0,
+      "weight": 0.1,
+      "contribution": 10.0,
+      "verdict": "0 warnings",
+      "feedback": "Clean compilation under strict C11 flags.",
+      "evidence": {
+        "warnings_count": 0,
+        "warnings": [],
+        "flags": "-Wall -Wextra -Werror -std=c11"
+      },
+      "suggestions": []
+    },
+    {
+      "name": "structure",
+      "analyzer": "static_analysis",
+      "score": 0.6,
+      "weight": 0.1,
+      "contribution": 6.0,
+      "verdict": "single-block code, no helper prototypes",
+      "feedback": "Static structure issues: single-block code, no helper prototypes.",
+      "evidence": {
+        "functions": [
+          {
+            "name": "main",
+            "length_lines": 11,
+            "cyclomatic": 3
+          }
+        ],
+        "max_cyclomatic_allowed": 8,
+        "max_function_length_allowed": 40,
+        "issues": [
+          "single-block code, no helper prototypes"
+        ]
+      },
+      "suggestions": [
+        "Separate business logic from I/O in `main()` and declare clear function prototypes."
+      ]
+    },
+    {
+      "name": "modularity",
+      "analyzer": "function_split",
+      "score": 0.3,
+      "weight": 0.1,
+      "contribution": 3.0,
+      "verdict": "only main() defined",
+      "feedback": "Only main() is defined. Extract an add(long long, long long) helper.",
+      "evidence": {
+        "functions_defined": 1,
+        "function_names": [
+          "main"
+        ],
+        "expected_min": 2
+      },
+      "suggestions": [
+        "Extract `long long add(long long a, long long b)` into its own function; call it from `main`."
+      ]
+    },
+    {
+      "name": "logical",
+      "analyzer": "edge_case_runner",
+      "score": 0.0,
+      "weight": 0.1,
+      "contribution": 0.0,
+      "verdict": "skipped (smoke run timed out)",
+      "feedback": "Skipped execution-based analyzer because smoke test timed out.",
+      "evidence": {
+        "skipped": true,
+        "reason": "suspected_infinite_loop"
+      },
+      "suggestions": []
+    },
+    {
+      "name": "complexity",
+      "analyzer": "complexity_estimator",
+      "score": 0.0,
+      "weight": 0.1,
+      "contribution": 0.0,
+      "verdict": "skipped (smoke run timed out)",
+      "feedback": "Skipped execution-based analyzer because smoke test timed out.",
+      "evidence": {
+        "skipped": true,
+        "reason": "suspected_infinite_loop"
+      },
+      "suggestions": []
+    },
+    {
+      "name": "memory_safety",
+      "analyzer": "sanitizer_run",
+      "score": 0.0,
+      "weight": 0.1,
+      "contribution": 0.0,
+      "verdict": "skipped (smoke run timed out)",
+      "feedback": "Skipped execution-based analyzer because smoke test timed out.",
+      "evidence": {
+        "skipped": true,
+        "reason": "suspected_infinite_loop"
+      },
+      "suggestions": []
+    },
+    {
+      "name": "readability",
+      "analyzer": "llm_review",
+      "score": 1.0,
+      "weight": 0.1,
+      "contribution": 10.0,
+      "verdict": "clear naming and documentation",
+      "feedback": "Clean formatting, descriptive identifiers, and helpful comments.",
+      "evidence": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0,
+        "seed": 42,
+        "raw_response": "{\"score\": 10, \"reasons\": []}"
+      },
+      "suggestions": []
+    },
+    {
+      "name": "originality",
+      "analyzer": "similarity_flag",
+      "score": 1.0,
+      "weight": 0.1,
+      "contribution": 10.0,
+      "verdict": "max similarity 0.68 (safe)",
+      "feedback": "Max corpus similarity 0.68 is below threshold 0.85.",
+      "evidence": {
+        "max_similarity": 0.68,
+        "closest_peer": "add_perfect.c",
+        "flag_threshold": 0.85,
+        "flagged": false
+      },
+      "suggestions": []
+    }
+  ],
+  "flags": [
+    "suspected_infinite_loop"
+  ],
+  "usefulness_limitations": {
+    "usefulness": [
+      {
+        "use_case": "Large-enrollment CS1/CS2 university programming courses",
+        "example": "An introductory C course with 450 students submits weekly lab assignments. The agent grades every upload in under 3 seconds with identical strictness on correctness, compiler hygiene, modularity, and ASan memory safety.",
+        "benefit": "Eliminates grading variance across TAs and gives students immediate counterexamples."
+      },
+      {
+        "use_case": "Coding-interview and embedded systems hiring screens",
+        "example": "A company runs 500 candidate submissions for an 'add two integers safely' task. The agent ranks them by correctness, edge-case handling and memory safety, and gives an explainable per-metric score.",
+        "benefit": "Fast first-round filtering where every rejection can be justified metric by metric."
+      },
+      {
+        "use_case": "Plagiarism and LLM-copy triage for instructors",
+        "example": "Two submissions reach a similarity of 0.93 against the 0.85 threshold, so the agent raises a flag in the report. The instructor reviews only those pairs instead of all 300.",
+        "benefit": "Saves review time by narrowing manual checking to suspicious cases."
+      },
+      {
+        "use_case": "Continuous self-check pre-submission hook for students",
+        "example": "Students run c-autograder locally before pushing to Git; the sanitizer_run and edge_case_runner analyzers catch signed 32-bit overflow and off-by-one bugs early.",
+        "benefit": "Teaches defensive C programming habits through concrete failing inputs."
+      }
+    ],
+    "limitations": [
+      {
+        "limitation": "Finite I/O tests cannot prove mathematical correctness",
+        "example": "A submission passes all 10 hidden tests but fails when the input has extra whitespace or a trailing newline that no test covers, or hardcodes a lookup table for small inputs. The agent still reports 10/10 on correctness.",
+        "mitigation": "Combine fixed regression tests with property-based randomized fuzzing against a reference oracle binary."
+      },
+      {
+        "limitation": "Empirical timing curves can misclassify complexity on noisy hosts",
+        "example": "An O(n) loop with a tiny constant factor finishes in 0.4ms for n=1..100 while OS scheduling jitter adds 0.8ms of variance, causing complexity_estimator to label an O(n) algorithm as O(1) (or vice versa).",
+        "mitigation": "Combine AST loop-bound static analysis with hardware instruction counters (perf) rather than wall-clock time alone."
+      },
+      {
+        "limitation": "Token-shingle similarity can false-positive on short boilerplate problems",
+        "example": "For a 10-line 'add two integers' task, two independent students who write standard scanf/printf with a helper function can exceed 0.85 token cosine similarity despite zero collusion.",
+        "mitigation": "Discount template boilerplate tokens and require a minimum AST node count before raising a similarity flag."
+      },
+      {
+        "limitation": "Heuristic / LLM readability rubrics can be gamed with superficial comments",
+        "example": "A student adds meaningless comments ('// function') and long meaningless variable names ('variable_one_number') over spaghetti logic, receiving 10/10 on readability.",
+        "mitigation": "Cross-check comment semantic relevance against AST operations and enforce human TA spot checks on borderline style scores."
+      }
+    ]
+  },
+  "tool_versions": {
+    "c_compiler": "21.0.0",
+    "autograder": "0.1.0"
+  }
+}

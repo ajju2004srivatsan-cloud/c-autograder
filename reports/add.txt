@@ -1,0 +1,62 @@
+===== Grading report for add.c =====
+Problem: add_two_integers (Rules: sha256:a0abe2c08f9d7470)
+Overall grade: 77.0 / 100
+
+Metric          Weight  Score    Contribution  Verdict
+------------------------------------------------------------------------
+correctness     20      16/20    16.0          8 of 10 tests pass
+syntax          10      9/10     9.0           -Wunused-result x1
+structure       10      6/10     6.0           single-block code, no helper prototypes
+modularity      10      3/10     3.0           only main() defined
+logical         10      8/10     8.0           INT_MAX + 1 overflow not handled
+complexity      10      10/10    10.0          O(1) confirmed
+memory_safety   10      10/10    10.0          ASan/UBSan clean
+readability     10      5/10     5.0           no comments, terse single-letter names, cramped formatting / missing whitespace
+originality     10      10/10    10.0          max similarity 0.32 (safe)
+
+--- Where you failed ---
+Test 07_int_max_overflow INPUT:    2147483647 1
+        EXPECTED: 2147483648
+        GOT:      -2147483648 (runtime error: signed 32-bit integer overflow wrapped around)
+        WHY:      a + b overflows on 32-bit signed ints. Use long long or check that b <= INT_MAX - a before adding.
+Test 08_int_min_underflow INPUT:    -2147483648 -1
+        EXPECTED: -2147483649
+        GOT:      2147483647 (08_int_min_underflow)
+        WHY:      a + b overflows on 32-bit signed ints. Use long long or check that b <= INT_MAX - a before adding.
+
+--- Suggestions to raise the grade ---
+- Handle 64-bit integer range explicitly using `long long` and `%lld`.
+- Check the return value of `scanf` and resolve all `-Wall -Wextra` warnings.
+- Separate business logic from I/O in `main()` and declare clear function prototypes.
+- Extract `long long add(long long a, long long b)` into its own function; call it from `main`.
+- Handle overflow explicitly with a wider integer type (`long long`).
+- Rename `a,b` to `lhs,rhs` (or similar); add a one-line comment above `main()`.
+
+--- Usefulness & limitations of this evaluation ---
+Useful for:
+1. Large-enrollment CS1/CS2 university programming courses
+   Example: An introductory C course with 450 students submits weekly lab assignments. The agent grades every upload in under 3 seconds with identical strictness on correctness, compiler hygiene, modularity, and ASan memory safety.
+   Benefit: Eliminates grading variance across TAs and gives students immediate counterexamples.
+2. Coding-interview and embedded systems hiring screens
+   Example: A company runs 500 candidate submissions for an 'add two integers safely' task. The agent ranks them by correctness, edge-case handling and memory safety, and gives an explainable per-metric score.
+   Benefit: Fast first-round filtering where every rejection can be justified metric by metric.
+3. Plagiarism and LLM-copy triage for instructors
+   Example: Two submissions reach a similarity of 0.93 against the 0.85 threshold, so the agent raises a flag in the report. The instructor reviews only those pairs instead of all 300.
+   Benefit: Saves review time by narrowing manual checking to suspicious cases.
+4. Continuous self-check pre-submission hook for students
+   Example: Students run c-autograder locally before pushing to Git; the sanitizer_run and edge_case_runner analyzers catch signed 32-bit overflow and off-by-one bugs early.
+   Benefit: Teaches defensive C programming habits through concrete failing inputs.
+
+Limits of this report:
+1. Finite I/O tests cannot prove mathematical correctness
+   Example: A submission passes all 10 hidden tests but fails when the input has extra whitespace or a trailing newline that no test covers, or hardcodes a lookup table for small inputs. The agent still reports 10/10 on correctness.
+   Fix:     Combine fixed regression tests with property-based randomized fuzzing against a reference oracle binary.
+2. Empirical timing curves can misclassify complexity on noisy hosts
+   Example: An O(n) loop with a tiny constant factor finishes in 0.4ms for n=1..100 while OS scheduling jitter adds 0.8ms of variance, causing complexity_estimator to label an O(n) algorithm as O(1) (or vice versa).
+   Fix:     Combine AST loop-bound static analysis with hardware instruction counters (perf) rather than wall-clock time alone.
+3. Token-shingle similarity can false-positive on short boilerplate problems
+   Example: For a 10-line 'add two integers' task, two independent students who write standard scanf/printf with a helper function can exceed 0.85 token cosine similarity despite zero collusion.
+   Fix:     Discount template boilerplate tokens and require a minimum AST node count before raising a similarity flag.
+4. Heuristic / LLM readability rubrics can be gamed with superficial comments
+   Example: A student adds meaningless comments ('// function') and long meaningless variable names ('variable_one_number') over spaghetti logic, receiving 10/10 on readability.
+   Fix:     Cross-check comment semantic relevance against AST operations and enforce human TA spot checks on borderline style scores.

@@ -1,0 +1,44 @@
+===== Grading report for add_perfect.c =====
+Problem: add_two_integers (Rules: sha256:a0abe2c08f9d7470)
+Overall grade: 100.0 / 100
+
+Metric          Weight  Score    Contribution  Verdict
+------------------------------------------------------------------------
+correctness     20      20/20    20.0          10 of 10 tests pass
+syntax          10      10/10    10.0          0 warnings
+structure       10      10/10    10.0          clean structure
+modularity      10      10/10    10.0          2 functions defined (add_integers, main)
+logical         10      10/10    10.0          all corner cases handled
+complexity      10      10/10    10.0          O(1) confirmed
+memory_safety   10      10/10    10.0          ASan/UBSan clean
+readability     10      10/10    10.0          clear naming and documentation
+originality     10      10/10    10.0          max similarity 0.68 (safe)
+
+--- Usefulness & limitations of this evaluation ---
+Useful for:
+1. Large-enrollment CS1/CS2 university programming courses
+   Example: An introductory C course with 450 students submits weekly lab assignments. The agent grades every upload in under 3 seconds with identical strictness on correctness, compiler hygiene, modularity, and ASan memory safety.
+   Benefit: Eliminates grading variance across TAs and gives students immediate counterexamples.
+2. Coding-interview and embedded systems hiring screens
+   Example: A company runs 500 candidate submissions for an 'add two integers safely' task. The agent ranks them by correctness, edge-case handling and memory safety, and gives an explainable per-metric score.
+   Benefit: Fast first-round filtering where every rejection can be justified metric by metric.
+3. Plagiarism and LLM-copy triage for instructors
+   Example: Two submissions reach a similarity of 0.93 against the 0.85 threshold, so the agent raises a flag in the report. The instructor reviews only those pairs instead of all 300.
+   Benefit: Saves review time by narrowing manual checking to suspicious cases.
+4. Continuous self-check pre-submission hook for students
+   Example: Students run c-autograder locally before pushing to Git; the sanitizer_run and edge_case_runner analyzers catch signed 32-bit overflow and off-by-one bugs early.
+   Benefit: Teaches defensive C programming habits through concrete failing inputs.
+
+Limits of this report:
+1. Finite I/O tests cannot prove mathematical correctness
+   Example: A submission passes all 10 hidden tests but fails when the input has extra whitespace or a trailing newline that no test covers, or hardcodes a lookup table for small inputs. The agent still reports 10/10 on correctness.
+   Fix:     Combine fixed regression tests with property-based randomized fuzzing against a reference oracle binary.
+2. Empirical timing curves can misclassify complexity on noisy hosts
+   Example: An O(n) loop with a tiny constant factor finishes in 0.4ms for n=1..100 while OS scheduling jitter adds 0.8ms of variance, causing complexity_estimator to label an O(n) algorithm as O(1) (or vice versa).
+   Fix:     Combine AST loop-bound static analysis with hardware instruction counters (perf) rather than wall-clock time alone.
+3. Token-shingle similarity can false-positive on short boilerplate problems
+   Example: For a 10-line 'add two integers' task, two independent students who write standard scanf/printf with a helper function can exceed 0.85 token cosine similarity despite zero collusion.
+   Fix:     Discount template boilerplate tokens and require a minimum AST node count before raising a similarity flag.
+4. Heuristic / LLM readability rubrics can be gamed with superficial comments
+   Example: A student adds meaningless comments ('// function') and long meaningless variable names ('variable_one_number') over spaghetti logic, receiving 10/10 on readability.
+   Fix:     Cross-check comment semantic relevance against AST operations and enforce human TA spot checks on borderline style scores.
