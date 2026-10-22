@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "c-autograder"
+version = "0.1.0"
+description = "Rule-driven automated grading engine and sandboxed evaluator for C programs"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Ajay Srivatsan R", email = "ajju2004srivatsan@gmail.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C",
+    "Topic :: Education :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.scripts]
+c-autograder = "autograder.cli:main"
