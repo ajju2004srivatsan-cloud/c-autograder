@@ -1,0 +1,78 @@
+{
+  "problem": "fibonacci_dp",
+  "time_limit_s": 1,
+  "memory_limit_mb": 64,
+  "sample_input": "10\n",
+  "metrics": [
+    {
+      "name": "correctness",
+      "analyzer": "io_tests",
+      "weight": 0.30,
+      "params": {
+        "testset_dir": "tests/fib/"
+      }
+    },
+    {
+      "name": "syntax",
+      "analyzer": "compiler_warnings",
+      "weight": 0.10,
+      "params": {
+        "flags": "-Wall -Wextra -Werror -std=c11"
+      }
+    },
+    {
+      "name": "structure",
+      "analyzer": "static_analysis",
+      "weight": 0.10,
+      "params": {
+        "max_cyclomatic": 6,
+        "max_function_length": 35
+      }
+    },
+    {
+      "name": "modularity",
+      "analyzer": "function_split",
+      "weight": 0.10,
+      "params": {
+        "expect_helpers": true,
+        "min_functions": 2
+      }
+    },
+    {
+      "name": "complexity",
+      "analyzer": "complexity_estimator",
+      "weight": 0.15,
+      "params": {
+        "required": "O(n)",
+        "sizes": [10, 30, 45]
+      }
+    },
+    {
+      "name": "memory_safety",
+      "analyzer": "sanitizer_run",
+      "weight": 0.10,
+      "params": {
+        "flags": "-fsanitize=address,undefined"
+      }
+    },
+    {
+      "name": "readability",
+      "analyzer": "llm_review",
+      "weight": 0.05,
+      "params": {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": 0,
+        "seed": 42
+      }
+    },
+    {
+      "name": "originality",
+      "analyzer": "similarity_flag",
+      "weight": 0.10,
+      "params": {
+        "corpus_dir": "submissions/",
+        "flag_threshold": 0.85
+      }
+    }
+  ]
+}
