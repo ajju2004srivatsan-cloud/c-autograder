@@ -1,0 +1,4 @@
+submission,problem,grade,compiled,smoke_ok,flags
+add.c,add_two_integers,77.0,True,True,
+add_infinite.c,add_two_integers,39.0,True,False,suspected_infinite_loop
+add_perfect.c,add_two_integers,100.0,True,True,
