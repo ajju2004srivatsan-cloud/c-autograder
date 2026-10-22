@@ -20,6 +20,5 @@ wheels/
 *.egg
 .pytest_cache/
 .coverage
-*.out
 *.dSYM/
 a.out
